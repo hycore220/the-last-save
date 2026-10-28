@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#eee8dc">
+  <meta name="description" content="Repair five tiny BASIC programs in a forgotten computer. Run real code, inspect its trace, and ask a local Gemma model for a clue.">
+  <title>The Last Save — a BASIC repair mystery</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip" href="#editor">Skip to the program</a>
+  <div class="page">
+    <header class="masthead">
+      <a href="./" class="brand" aria-label="The Last Save home"><span class="brand-mark" aria-hidden="true">▧</span> THE LAST SAVE <span class="edition">/ RECOVERY DESK</span></a>
+      <div class="masthead-right"><span class="power-dot" aria-hidden="true"></span><span>LOCAL MEMORY</span><button id="about-open" class="text-button">How to play</button></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="game-title">
+        <div>
+          <p class="eyebrow">A small mystery in five programs</p>
+          <h1 id="game-title">The machine remembers.<br><em>Almost.</em></h1>
+          <p class="hero-copy">Five damaged programs. Five memories waiting inside.<br>Repair the BASIC, follow the trace, and find the last save.</p>
+        </div>
+        <div class="hero-note" aria-label="Your progress">
+          <span class="note-label">RECOVERY LOG</span>
+          <span class="recovery-count"><strong id="solved-count">0</strong><span>/ 05</span></span>
+          <span id="progress-copy">memories recovered</span>
+          <div class="progress-track"><span id="progress-fill"></span></div>
+          <button id="reset-all" class="text-button">Start a fresh recovery ↗</button>
+        </div>
+      </section>
+
+      <nav id="disk-list" class="disk-list" aria-label="Choose a damaged program"></nav>
+
+      <section class="case-heading" aria-labelledby="puzzle-title">
+        <div class="case-title"><span id="puzzle-number" class="case-number">01</span><div><p class="eyebrow" id="puzzle-subtitle">READING DISK</p><h2 id="puzzle-title">Loading the first memory…</h2></div></div>
+        <p id="puzzle-story" class="case-story"></p>
+      </section>
+
+      <div class="workspace">
+        <section class="program-panel" aria-labelledby="program-label">
+          <div class="panel-bar"><h3 id="program-label"><span class="small-square" aria-hidden="true"></span> PROGRAM.BAS</h3><button id="reset-code" class="text-button">Restore original</button></div>
+          <label class="sr-only" for="editor">BASIC program source</label>
+          <textarea id="editor" class="code-editor" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-describedby="editor-tip" maxlength="12000" wrap="off"></textarea>
+          <div class="editor-bottom"><span id="editor-tip">Edit a line. Keep its number.</span><span class="keyboard-tip">Ctrl / ⌘ + Enter to run</span></div>
+          <div class="run-row"><div><span class="micro-label">TEST INPUT</span><code id="input-values">—</code></div><button id="run-program" class="primary-button"><span aria-hidden="true">▶</span> Run program</button></div>
+        </section>
+
+        <div class="right-stack">
+          <section class="screen-panel" aria-labelledby="output-label">
+            <div class="screen-top"><h3 id="output-label">MONITOR / OUTPUT</h3><span id="run-indicator" class="monitor-badge">STANDBY</span></div>
+            <div class="output-columns"><div><p class="screen-label">EXPECTED</p><pre id="expected-output">—</pre></div><div><p class="screen-label">YOUR PROGRAM</p><pre id="actual-output">READY.
+Press RUN to begin.</pre></div></div>
+            <div id="run-status" class="run-status" role="status" aria-live="polite">The machine is waiting for you.</div>
+            <div id="test-results" class="test-results" hidden></div>
+          </section>
+
+          <section class="hint-panel" aria-labelledby="hint-label">
+            <div class="hint-heading"><div><p class="eyebrow">A voice in the machine</p><h3 id="hint-label">Ask for a little help.</h3></div><span class="ghost-mark" aria-hidden="true">⌁</span></div>
+            <div id="hint-text" class="hint-text" role="status" aria-live="polite">A clue can point you toward the fault. The interpreter decides whether the repair works.</div>
+            <p id="hint-meta" class="hint-meta">Recorded Gemma clue · original program</p>
+            <details id="hint-evidence" class="hint-evidence" hidden><summary>Inspect the clue record</summary><pre id="hint-evidence-text"></pre></details>
+            <div class="hint-actions"><button id="ask-hint" class="secondary-button">Ask for a clue <span aria-hidden="true">↗</span></button><label class="hint-mode-label"><span class="sr-only">Clue source</span><select id="hint-mode" aria-label="Clue source"><option value="recorded">Recorded Gemma</option><option value="browser" disabled>Live browser Gemma</option></select></label></div>
+            <details class="ai-settings"><summary>Experimental: run Gemma in this browser</summary><p id="model-download-note">About 600–700 MB download; WebGPU required. Model files are fetched only when you load it. Your edited code stays in this browser.</p><button id="load-model" class="text-button">Load local browser model →</button><p id="model-status" role="status" aria-live="polite"></p><p class="small-note">This optional browser model has not been runtime-tested for this release. Recorded clues are real saved model responses for the original programs, not new inference. A changed program needs live inference or your own investigation.</p></details>
+          </section>
+        </div>
+      </div>
+
+      <section id="memory-panel" class="memory-panel" aria-labelledby="memory-title" hidden>
+        <div class="memory-icon" aria-hidden="true">✦</div><div><p class="eyebrow">RECOVERED MEMORY</p><h3 id="memory-title">Something came back.</h3><p id="memory-text"></p></div><button id="next-puzzle" class="primary-button">Next memory →</button>
+      </section>
+
+      <section class="trace-panel" aria-labelledby="trace-heading">
+        <div class="trace-heading"><div><p class="eyebrow">No black box</p><h3 id="trace-heading">Follow the execution.</h3></div><span id="trace-summary" class="trace-summary">Run a program to see its path.</span></div>
+        <div id="trace-empty" class="trace-empty"><span aria-hidden="true">↳</span> Every executed line leaves a trace. Look here when the output feels wrong.</div>
+        <div id="trace-table-wrap" class="trace-table-wrap" hidden><table><thead><tr><th scope="col">STEP</th><th scope="col">LINE</th><th scope="col">STATEMENT</th><th scope="col">VARIABLES AFTER THIS LINE</th></tr></thead><tbody id="trace-body"></tbody></table></div>
+      </section>
+
+      <section id="ending" class="ending" hidden aria-labelledby="ending-title"><p class="eyebrow">RECOVERY COMPLETE</p><h2 id="ending-title">Nothing here was ever really lost.</h2><p>You repaired five small programs and gave the machine its memories back. What remains is the part that was always yours: the patience to understand something before replacing it.</p><div class="ending-stamp">5 / 5 MEMORIES RESTORED</div></section>
+    </main>
+
+    <footer><p>An original fictional story by <strong>QueueCareLab</strong>.<br>Real BASIC execution. Open model clues. Progress saved on your device.</p><div><a data-repository-link href="./last-save-source.zip" download>Download source &amp; local setup ↓</a><button id="reveal-repair" class="text-button">Reveal this repair</button><span id="storage-status" class="small-note">Progress stays in this browser.</span></div></footer>
+  </div>
+
+  <dialog id="about-dialog" aria-labelledby="about-title"><button class="dialog-close" id="about-close" aria-label="Close instructions">×</button><p class="eyebrow">RECOVERY DESK / FIELD NOTES</p><h2 id="about-title">A little BASIC.<br>A little patience.</h2><ol><li>Choose a disk. Read its story and expected output.</li><li>Run the damaged program. Follow the executed lines and variable values.</li><li>Edit the program and run again. A memory returns when all input checks pass.</li></ol><p>New to BASIC? <code>LET</code> assigns a value, <code>INPUT</code> reads the supplied numbers, <code>PRINT</code> shows a value, and <code>IF … THEN 60</code> jumps to line 60 when its condition is true. <code>GOTO</code> jumps unconditionally; <code>END</code> stops.</p><p>The interpreter uses a small, bounded language. It cannot run JavaScript or read your files. You can inspect its trace even when a program gets stuck in a loop.</p><p>Gemma clues can be useful and can be wrong. Recorded clues come from actual local model runs on the original programs. Loading the browser model enables new clues for your edits, with no code sent to a server.</p><button id="about-start" class="primary-button">Back to the machine →</button></dialog>
+  <noscript><p class="noscript">The Last Save needs JavaScript to run its BASIC interpreter. No program can run while JavaScript is disabled.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "method": "actual CUA browser interactions",
+  "origin": "http://127.0.0.1:8092",
+  "puzzles": [
+    {
+      "count": "1",
+      "output": "6",
+      "puzzle": "First light",
+      "status": "All 3 input checks passed. A memory has returned."
+    },
+    {
+      "count": "2",
+      "output": "10",
+      "puzzle": "The missing beat",
+      "status": "All 3 input checks passed. A memory has returned."
+    },
+    {
+      "count": "3",
+      "output": "3\n2\n1\nSTILL HERE",
+      "puzzle": "The second hand",
+      "status": "All 3 input checks passed. A memory has returned."
+    },
+    {
+      "count": "4",
+      "output": "KEEP WARM",
+      "puzzle": "The warm room",
+      "status": "All 3 input checks passed. A memory has returned."
+    },
+    {
+      "count": "5",
+      "output": "5",
+      "puzzle": "The last save",
+      "status": "All 3 input checks passed. A memory has returned."
+    }
+  ],
+  "reloadProgressRetained": true,
+  "endingVisible": true,
+  "recordedFirstClue": "Verified original trace and helpful operation hint",
+  "browserLiveModel": "Not runtime-verified"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "model": "gemma4:e4b",
+  "kind": "recorded-real-local-inference",
+  "selection_note": "Curated from development attempts; not a benchmark. Current live prompt now includes the normative subtitle and all examples. Initial-source clues additionally receive the authored focus line; changed code does not.",
+  "clues": [
+    {
+      "puzzle_id": "first-light",
+      "source_sha256": "65459c6cab616559657a3e9575b484175e7d9daaa5b34c4a0b426cf51c3d6bf2",
+      "context_sha256": "373b4e26a8b0ce9b7b514269bde458775cfd82b27ac1e0727190aa68a7815b44",
+      "trace_sha256": "4eb70b8e139f0d310dbe9c7e947ed87975d5d347f29477fc8371b4031ec1db17",
+      "generated_at": "2026-10-28T06:20:49.243Z",
+      "text": "The rule states each cell gives three volts, but line 30 calculates CELLS + 3. How should you adjust the calculation to reflect three volts per cell?",
+      "reviewed": true,
+      "trace_lines": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ]
+    },
+    {
+      "puzzle_id": "missing-beat",
+      "source_sha256": "b759e589843350ac60d9811d15834b46688046687f7d5a029b99a761e1d9c619",
+      "context_sha256": "11dc8172ea37616471ddc4075138381837a62ac6b4dfb3afcba313d2168665e9",
+      "trace_sha256": "24934cf79caa58241c753e8416c24ed72f4e9d2229704484306c5d6a3550fad0",
+      "generated_at": "2026-10-28T06:20:49.754Z",
+      "text": "The line IF I < N THEN 40 only executes line 40 if the condition is true. How can you ensure line 40 runs when I equals N to include the last bell's count?",
+      "reviewed": true,
+      "trace_lines": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80
+      ]
+    },
+    {
+      "puzzle_id": "second-hand",
+      "source_sha256": "e1ef7fd4b8fed20b1564e3a915247d96cb4f9203e0a4b1eb23d9281c08651388",
+      "context_sha256": "eb58e5a2b93c475e4442bceb5cd549d15377c739979764651402a1953c44a754",
+      "trace_sha256": "753e74a632fc0855e4bb9afd2d494e6a3872f1705137f76982166fe94c8d8c7c",
+      "generated_at": "2026-10-28T06:20:50.205Z",
+      "text": "The rule requires counting down, but line 30 increases the value of T. How can you modify the operation on line 30 to ensure T decreases with each cycle?",
+      "reviewed": true,
+      "trace_lines": [
+        10,
+        20,
+        30,
+        40
+      ]
+    },
+    {
+      "puzzle_id": "warm-room",
+      "source_sha256": "95c050663b3eb06f2852bbc5461fd3ae2d567230b1d6d732bd23dcfc6415748a",
+      "context_sha256": "ee76d9b4a7372cd52683f3101be749438ed32772f312ac96e0bfb34a157d09e8",
+      "trace_sha256": "87eba0ef0c092580c352f4acbd42376f1905152f676dbe476d17c6a8702bb4ed",
+      "generated_at": "2026-10-28T06:16:14.740Z",
+      "text": "The trace shows that when TEMP is 0, the program executes line 30, printing \"OPEN,\" but you expected \"KEEP WARM.\" Remember that the condition in line 20 is strictly less than zero; what happens when the temperature is exactly zero?",
+      "reviewed": true,
+      "trace_lines": [
+        10,
+        20,
+        30,
+        40
+      ]
+    },
+    {
+      "puzzle_id": "last-save",
+      "source_sha256": "deef3d093d64b4814d96a73034497afbd4465c904ecb3252dd8e2b9d51c396de",
+      "context_sha256": "5294e3676f264cefd4e28b771750d770759100d25eb77ffc0d11762e0b5a701c",
+      "trace_sha256": "04d023c60e852d7ca5fca170a7bc1fef67056d9501454c3ac21f01853390c5ca",
+      "generated_at": "2026-10-28T06:20:51.156Z",
+      "text": "Line 70 overwrites A with NEXT, but line 80 also uses NEXT. How should you update both A and B to correctly store the next two Fibonacci numbers?",
+      "reviewed": true,
+      "trace_lines": [
+        10,
+        20,
+        30,
+        40,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        110,
+        120
+      ]
+    }
+  ]
+}
