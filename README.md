@@ -8,7 +8,7 @@ Repair five broken BASIC programs to recover a fictional computer's memories. Ed
 
 The web demo uses clearly labelled recorded Gemma clues. Live local inference is available with the Python server below; the optional browser model is experimental. The five puzzles work without downloading a model.
 
-![A broken BASIC program, its output, a recorded Gemma clue, and its execution trace](docs/gameplay.png)
+![A broken BASIC program, its output, a recorded Gemma clue, and its execution trace](docs/gameplay.jpg)
 
 ## Play locally
 
@@ -63,3 +63,4 @@ Game source and fictional story: MIT, QueueCareLab. Developed with AI coding ass
 - [Ollama](https://github.com/ollama/ollama)
 
 External model and runtime downloads remain subject to their own licences and terms.
+
