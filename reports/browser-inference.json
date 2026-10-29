@@ -1,0 +1,178 @@
+{
+  "tested_at": "2026-10-29T04:41:14.548Z",
+  "kind": "actual-browser-UI-inference",
+  "environment": "Codex in-app browser with WebGPU; local preview of the site source on port 8094",
+  "model": "gemma-2-2b-it-q4f16_1-MLC",
+  "runtime": "WebLLM 0.2.86",
+  "initial_failure": {
+    "model": "gemma3-1b-it-q4f16_1-MLC",
+    "error": "WindowSizeConfigurationError: context_window_size 4096 and sliding_window_size 512 are both positive.",
+    "source": "https://github.com/mlc-ai/web-llm/issues/873"
+  },
+  "cases": [
+    {
+      "case": "first-light-original",
+      "source": "10 REM LAMP POWER\n20 INPUT CELLS\n30 LET VOLTS = CELLS + 3\n40 PRINT VOLTS\n50 END",
+      "text": "Why is the lamp's voltage outputting 5 volts instead of 6 volts? Is the calculation of voltage correct?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 10064,
+        "usage": {
+          "completion_tokens": 28,
+          "prompt_tokens": 520,
+          "total_tokens": 548,
+          "extra": {
+            "e2e_latency_s": 10.064,
+            "prefill_tokens_per_s": 56.706652126499456,
+            "decode_tokens_per_s": 30.38487510396845,
+            "time_to_first_token_s": 9.17,
+            "time_per_output_token_s": 0.03291111108991835
+          }
+        }
+      }
+    },
+    {
+      "case": "first-light-edited-times-two",
+      "source": "10 REM LAMP POWER\n20 INPUT CELLS\n30 LET VOLTS = CELLS * 2\n40 PRINT VOLTS\n50 END",
+      "text": "Why is the lamp outputting a value that's double the input?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 514,
+        "usage": {
+          "completion_tokens": 18,
+          "prompt_tokens": 519,
+          "total_tokens": 537,
+          "extra": {
+            "e2e_latency_s": 0.514,
+            "prefill_tokens_per_s": 1718.543046357616,
+            "decode_tokens_per_s": 80.99094812570675,
+            "time_to_first_token_s": 0.302,
+            "time_per_output_token_s": 0.01234705881511464
+          }
+        }
+      }
+    },
+    {
+      "case": "warm-room-original-initial-prompt",
+      "source": "10 INPUT TEMP\n20 IF TEMP < 0 THEN 50\n30 PRINT \"OPEN\"\n40 END\n50 PRINT \"KEEP WARM\"\n60 END",
+      "text": "Is the code correctly checking if the temperature is below zero before printing \"OPEN\"?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 503,
+        "usage": {
+          "completion_tokens": 19,
+          "prompt_tokens": 488,
+          "total_tokens": 507,
+          "extra": {
+            "e2e_latency_s": 0.502,
+            "prefill_tokens_per_s": 1727.4336283185842,
+            "decode_tokens_per_s": 82.26691025911735,
+            "time_to_first_token_s": 0.2825,
+            "time_per_output_token_s": 0.01215555557939741
+          }
+        }
+      },
+      "review": "Weak clue: does not explicitly explain the zero equality boundary. Retained as a development observation, not a quality pass."
+    },
+    {
+      "case": "last-save-original-initial-prompt",
+      "source": "10 INPUT N\n20 LET A = 0\n30 LET B = 1\n40 LET I = 0\n50 IF I >= N THEN 110\n60 LET NEXT = A + B\n70 LET A = NEXT\n80 LET B = NEXT\n90 LET I = I + 1\n100 GOTO 50\n110 PRINT A\n120 END",
+      "text": "The program overwrites the previous Fibonacci number with the wrong value.  Is the temporary variable used to store the sum of the previous two Fibonacci numbers?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 1214,
+        "usage": {
+          "completion_tokens": 33,
+          "prompt_tokens": 1203,
+          "total_tokens": 1236,
+          "extra": {
+            "e2e_latency_s": 1.213,
+            "prefill_tokens_per_s": 1777.4822696287779,
+            "decode_tokens_per_s": 60.0037502129293,
+            "time_to_first_token_s": 0.6767999999523163,
+            "time_per_output_token_s": 0.016665625005960465
+          }
+        }
+      },
+      "review": "Identifies overwriting the previous number; question about NEXT is vague. Retained, not a benchmark."
+    },
+    {
+      "case": "warm-room-original-final-prompt",
+      "source": "10 INPUT TEMP\n20 IF TEMP < 0 THEN 50\n30 PRINT \"OPEN\"\n40 END\n50 PRINT \"KEEP WARM\"\n60 END",
+      "text": "The code is printing \"OPEN\" when it should be \"KEEP WARM\" because the IF statement is not properly handling the temperature. Is the temperature value being compared to zero?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 889,
+        "usage": {
+          "completion_tokens": 40,
+          "prompt_tokens": 539,
+          "total_tokens": 579,
+          "extra": {
+            "e2e_latency_s": 0.889,
+            "prefill_tokens_per_s": 1307.9349675436408,
+            "decode_tokens_per_s": 82.73228674668032,
+            "time_to_first_token_s": 0.4120999999046326,
+            "time_per_output_token_s": 0.012087179495738109
+          }
+        }
+      },
+      "review": "Correct output mismatch but still a generic question; equality is not explained. Runtime pass, not a pedagogical quality pass."
+    },
+    {
+      "case": "first-light-edited-times-two-final-prompt",
+      "source": "10 REM LAMP POWER\n20 INPUT CELLS\n30 LET VOLTS = CELLS * 2\n40 PRINT VOLTS\n50 END",
+      "text": "The code is calculating the voltage for each cell, but the expected output is 6. The rule states that each cell gives three volts. The code is multiplying the number of cells by 2. Is this the correct calculation?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 944,
+        "usage": {
+          "completion_tokens": 49,
+          "prompt_tokens": 570,
+          "total_tokens": 619,
+          "extra": {
+            "e2e_latency_s": 0.944,
+            "prefill_tokens_per_s": 1682.9052268113041,
+            "decode_tokens_per_s": 79.90677535889334,
+            "time_to_first_token_s": 0.33869999980926513,
+            "time_per_output_token_s": 0.012514583344260852
+          }
+        }
+      },
+      "review": "Correctly identifies current multiplier 2 and rule 3; does not reuse the original addition clue. Ends with a generic question."
+    },
+    {
+      "case": "last-save-original-final-prompt",
+      "source": "10 INPUT N\n20 LET A = 0\n30 LET B = 1\n40 LET I = 0\n50 IF I >= N THEN 110\n60 LET NEXT = A + B\n70 LET A = NEXT\n80 LET B = NEXT\n90 LET I = I + 1\n100 GOTO 50\n110 PRINT A\n120 END",
+      "text": "The program overwrites the previous Fibonacci number with the wrong value. The line that's causing this is line 70. The variable A is being overwritten with the next Fibonacci number. \n\n**Guiding Question:** What is the relationship between the variable A and the Fibonacci sequence?",
+      "evidence": {
+        "live": true,
+        "elapsed_ms": 1763,
+        "usage": {
+          "completion_tokens": 61,
+          "prompt_tokens": 1254,
+          "total_tokens": 1315,
+          "extra": {
+            "e2e_latency_s": 1.763,
+            "prefill_tokens_per_s": 1782.7694055018223,
+            "decode_tokens_per_s": 56.94760829581674,
+            "time_to_first_token_s": 0.7034000000953674,
+            "time_per_output_token_s": 0.01755999997059504
+          }
+        }
+      },
+      "review": "Correctly identifies line 70 overwriting A with NEXT. Does not provide replacement BASIC code; omits the requested guiding question."
+    }
+  ],
+  "limitations": [
+    "These are assistant-reviewed development runs, not an independent benchmark.",
+    "The first four cases used the initial merged user prompt; the last three include concrete-discrepancy guidance.",
+    "The zero-temperature clue remains too generic; recorded reviewed clues stay the default.",
+    "GPU performance and memory requirements vary. Timeout/interruption behavior was inspected but not forced in this UI run.",
+    "Only the BASIC interpreter grades repairs."
+  ],
+  "sources": [
+    "https://github.com/mlc-ai/web-llm/blob/v0.2.86/src/config.ts",
+    "https://huggingface.co/mlc-ai/gemma-2-2b-it-q4f16_1-MLC/blob/main/ndarray-cache.json",
+    "https://ai.google.dev/gemma/docs/core/prompt-structure"
+  ]
+}

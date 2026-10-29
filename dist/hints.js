@@ -1,10 +1,10 @@
 /* Original trace-grounded clue adapter. Model output is never executable. */
 export const MODEL_INFO = Object.freeze({
-  id: 'gemma3-1b-it-q4f16_1-MLC',
-  label: 'Gemma 3 1B · in your browser',
-  downloadNote: 'About 600–700 MB download; WebGPU required. Model files are fetched only when you load it.',
+  id: 'gemma-2-2b-it-q4f16_1-MLC',
+  label: 'Gemma 2 2B · in your browser',
+  downloadNote: 'About 1.5 GB download and 1.9 GB GPU memory; WebGPU with shader-f16 required. Model files are fetched only when you load it.',
   runtime: 'WebLLM 0.2.86',
-  modelUrl: 'https://huggingface.co/mlc-ai/gemma3-1b-it-q4f16_1-MLC',
+  modelUrl: 'https://huggingface.co/mlc-ai/gemma-2-2b-it-q4f16_1-MLC',
   termsUrl: 'https://ai.google.dev/gemma/terms'
 });
 
@@ -107,15 +107,26 @@ async function browserHint(args) {
   if(browserBusy)throw new Error('A clue is already being generated.');
   browserBusy=true;
   let timer;
+  let generation;
+  let timedOut=false;
   const start=performance.now();
   try {
     await browserEngine.resetChat();
+    // Gemma 2's instruction format has user/model turns, not a system turn.
+    const browserGuidance='Start with one concrete discrepancy between the rule and the observed execution, naming the relevant executed line and value when available. Then ask one specific guiding question. For a boundary comparison, check equality explicitly. Avoid generic questions such as "Is the calculation correct?"';
+    const messages=[{role:'user',content:SYSTEM_PROMPT+'\n\n'+browserGuidance+'\n\n'+buildHintMessages(args)[1].content}];
+    generation=browserEngine.chat.completions.create({messages,temperature:0,max_tokens:120,stream:false});
     const reply=await Promise.race([
-      browserEngine.chat.completions.create({messages:buildHintMessages(args),temperature:0,max_tokens:120,stream:false}),
-      new Promise((_,reject)=>{timer=setTimeout(()=>{browserEngine.interruptGenerate().catch(()=>{});reject(new Error('Gemma did not finish within 60 seconds.'));},60000);})
+      generation,
+      new Promise((_,reject)=>{timer=setTimeout(()=>{timedOut=true;browserEngine.interruptGenerate().catch(()=>{});reject(new Error('Gemma did not finish within 60 seconds. Wait for it to stop before trying again.'));},60000);})
     ]);
     return {text:cleanHint(reply.choices?.[0]?.message?.content),mode:'browser',model:MODEL_INFO.id,evidence:{live:true,elapsed_ms:Math.round(performance.now()-start),usage:reply.usage||null},warning:'AI clues can be wrong. Only the BASIC interpreter checks your repair.'};
-  } finally { clearTimeout(timer);browserBusy=false; }
+  } finally {
+    clearTimeout(timer);
+    // A timed-out request can still own the engine until its interruption settles.
+    if(timedOut && generation) generation.then(()=>{browserBusy=false;},()=>{browserBusy=false;});
+    else browserBusy=false;
+  }
 }
 
 async function localHint(args) {
