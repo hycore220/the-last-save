@@ -160,7 +160,7 @@
           }
         }
       },
-      "review": "Correctly identifies line 70 overwriting A with NEXT. Does not provide replacement BASIC code; omits the requested guiding question."
+      "review": "Correctly identifies line 70 overwriting A with NEXT and does not provide replacement BASIC code. Includes a guiding question, but it is broad and does not explain which previous value must be preserved."
     }
   ],
   "limitations": [
