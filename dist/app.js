@@ -130,6 +130,7 @@ function renderTrace(run) {
 
 function runProgram() {
   const p = puzzle(); const source = $('editor').value;
+  const refreshClueStatus = lastRun === null;
   saved.sources[p.id] = source; persist();
   try {
     lastRun = runBasic(source, { inputs: p.inputs || [], maxSteps: 1200 });
@@ -150,6 +151,11 @@ function runProgram() {
     $('test-results').hidden = false;
     if (solved && !saved.solved.includes(p.id)) { saved.solved.push(p.id); persist(); }
     renderTrace(lastRun); renderDisks(); renderMemory();
+    if (refreshClueStatus) {
+      $('hint-meta').textContent = $('hint-mode').value === 'recorded'
+        ? 'Recorded Gemma clue · exact original program only'
+        : 'Live clue · based on the current run when requested';
+    }
   } catch (error) {
     $('run-indicator').textContent = 'INTERRUPTED';
     $('run-indicator').className = 'monitor-badge is-error';
